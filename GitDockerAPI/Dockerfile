@@ -1,14 +1,13 @@
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
 EXPOSE 80
-EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY GitDockerAPI/GitDockerAPI.csproj GitDockerAPI/
-RUN dotnet restore "GitDockerAPI/GitDockerAPI.csproj"
+COPY GitDockerAPI.csproj .
+RUN dotnet restore "GitDockerAPI.csproj"
 COPY . .
-WORKDIR "/src/GitDockerAPI"
+WORKDIR "/src"
 RUN dotnet build "GitDockerAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish
