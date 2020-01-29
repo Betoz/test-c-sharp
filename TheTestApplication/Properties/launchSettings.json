@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "GitDockerAPI": {
+    "TheTestApplication": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "weatherforecast",

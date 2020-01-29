@@ -1,6 +1,6 @@
 using System;
 
-namespace GitDockerAPI
+namespace TheTestApplication
 {
     public class WeatherForecast
     {
