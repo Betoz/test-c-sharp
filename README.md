@@ -13,7 +13,7 @@ docker container run -dit --name my-test-application -p 80:80 the-test-applicati
 
 ## Test
 Curl or visit
-* <http://localhost/weatherforecast>
+* <http://localhost/api/messages>
 
 ## Shut down
 ```
