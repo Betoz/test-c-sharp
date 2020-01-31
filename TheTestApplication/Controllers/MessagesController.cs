@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TheTestApplication.Models;
+using System.Collections.Generic;
 
 namespace TheTestApplication.Controllers
 {
@@ -7,19 +8,54 @@ namespace TheTestApplication.Controllers
     [Route("api/[controller]")]
     public class MessagesController : ControllerBase
     {
-        private static readonly MessageLog[] Messages = new MessageLog[]
+        private readonly MessageDbContext _context;
+
+        public MessagesController(MessageDbContext context)
         {
-            new MessageLog{Id=1, Message="Hello world"},
-            new MessageLog{Id=2, Message="Come here"},
-            new MessageLog{Id=3, Message="Pasta for lunch"},
-            new MessageLog{Id=4, Message="Welcome home"},
-            new MessageLog{Id=5, Message="There is more"}
-        };
+            _context = context;
+        }
 
         [HttpGet]
-        public MessageLog[] GetMessages()
+        public ActionResult<IEnumerable<MessageEntry>> GetMessages()
         {
-            return Messages;
+            return _context.Messages;
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<MessageEntry> GetMessage(long id)
+        {
+            var message = _context.Messages.Find(id);
+            if (message == null)
+            {
+                return NotFound();
+            }
+            return message;
+        }
+
+        [HttpPost]
+        public ActionResult<MessageEntry> PostMessage(MessageEntry message)
+        {
+            System.Console.WriteLine(message.Message);
+            if (message.Message == null)
+            {
+                return BadRequest();
+            }
+            _context.Messages.Add(message);
+            _context.SaveChanges();
+            return CreatedAtAction(nameof(GetMessages), new { id = message.Id }, message);
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult<MessageEntry> DeleteMessage(long id)
+        {
+            var message = _context.Messages.Find(id);
+            if (message == null)
+            {
+                return BadRequest();
+            }
+            _context.Messages.Remove(message);
+            _context.SaveChanges();
+            return message;
         }
     }
 }
