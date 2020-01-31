@@ -1,6 +1,6 @@
 using System;
 
-namespace TheTestApplication
+namespace TheTestApplication.Models
 {
     public class WeatherForecast
     {
